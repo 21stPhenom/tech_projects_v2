@@ -112,3 +112,6 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.TokenAuthentication'
     ]
 }
+
+# User model
+AUTH_USER_MODEL = 'accounts.CustomUser'
