@@ -20,6 +20,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     
     # Local apps
+    'accounts.apps.AccountsConfig',
     
     # 3rd-Party apps
     'rest_framework',
@@ -64,7 +65,7 @@ DATABASES = {
         'USER': env('DB_USER'),
         'PASSWORD': env('DB_PASSWORD'),
         'HOST': env('DB_HOST'),
-        'PORT': env('PORT')
+        'PORT': env('DB_PORT')
     }
 }
 
