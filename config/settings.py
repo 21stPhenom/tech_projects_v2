@@ -21,6 +21,7 @@ INSTALLED_APPS = [
     
     # Local apps
     'accounts.apps.AccountsConfig',
+    'projects.apps.ProjectsConfig',
     
     # 3rd-Party apps
     'rest_framework',
