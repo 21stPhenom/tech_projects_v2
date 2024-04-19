@@ -21,7 +21,7 @@ class Project(models.Model):
         models.CharField(verbose_name='Project Tags', max_length=200, default=''),
         default=list
     )
-    enrolled_profiles = models.ManyToManyField(CustomUser, related_name='enrolled_projects', blank=True)
+    enrolled_users = models.ManyToManyField(CustomUser, related_name='enrolled_projects', blank=True)
     difficulty = models.CharField(verbose_name='Project Difficulty', max_length=1, choices=difficulty_choices)
     project_slug = AutoSlugField(populate_from='name', unique=True)
     date_created = models.DateTimeField(auto_now_add=True)
