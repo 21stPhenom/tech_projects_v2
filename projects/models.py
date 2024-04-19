@@ -39,7 +39,7 @@ class Solution(models.Model):
     creator = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='solutions')
     project = models.OneToOneField(Project, on_delete=models.CASCADE, related_name='project')
     repo_link = models.URLField(verbose_name='Solution Repository', max_length=500)
-    live_link = models.URLField(verbose_name=':ive Solution', max_length=500, null=True, blank=True)
+    live_link = models.URLField(verbose_name='live Solution', max_length=500, null=True, blank=True)
     date_created = models.DateTimeField(auto_now_add=True)
     date_updated = models.DateTimeField(auto_now=True)
 
