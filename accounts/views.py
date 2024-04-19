@@ -18,7 +18,7 @@ class Accounts(APIView):
     model = User
     serializer_class = UserSerializer
     
-    def get(self, request, *args, **kwargs) -> Response:
+    def get(self, request, *args, **kwargs):
         queryset = self.model.objects.all()
         queryset = self.serializer_class(queryset, many=True)
         
@@ -28,7 +28,7 @@ class AccountDetail(APIView):
     model = User
     serializer_class = UserSerializer
     
-    def get(self, request, username, *args, **kawrgs) -> Response:
+    def get(self, request, username, *args, **kawrgs):
         user = get_object_or_404(User, username=username)
         user = self.serializer_class(user)
         return Response(user.data, status=status.HTTP_200_OK)
@@ -37,7 +37,7 @@ class Register(APIView):
     model = User
     serializer_class = UserSerializer
     
-    def post(self, request, *args, **kwargs) -> Response:
+    def post(self, request, *args, **kwargs):
         request.data['password'] = make_password(request.data['password'])
         user = self.serializer_class(data=request.data)
         
@@ -52,7 +52,7 @@ class Login(APIView):
     model = User
     serializer_class = UserSerializer
     
-    def post(self, request, *args, **kwargs) -> Response:
+    def post(self, request, *args, **kwargs):
         password = request.data['password']
         username = request.data.get('username', None)
         email = request.data.get('email', None)
@@ -77,14 +77,14 @@ class Login(APIView):
             }, status=status.HTTP_400_BAD_REQUEST)
 
 class ForgotPassword(APIView):
-    def get(self, request, *args, **kwargs) -> Response:
+    def get(self, request, *args, **kwargs):
         email = request.data['email']
         user = get_object_or_404(User, email=email)
         otp = generate_otp(user)
         
         return send_mail(otp_mail, email, otp)
     
-    def post(self, request, *args, **kwargs) -> Response:
+    def post(self, request, *args, **kwargs):
         email = request.data['email']
         user = get_object_or_404(User, email=email)
         otp = request.data['otp']
@@ -100,7 +100,7 @@ class ForgotPassword(APIView):
             }, status=status.HTTP_400_BAD_REQUEST)
             
 class ResetPassword(APIView):
-    def post(self, request, *args, **kwargs) -> Response:
+    def post(self, request, *args, **kwargs):
         otp_hash = request.data['otp_hash']            
         email = request.data['email']
         new_password = request.data['password']
@@ -122,12 +122,12 @@ class ResetPassword(APIView):
 class DeleteAccount(APIView):
     permission_classes = [IsAuthenticated, IsOwner]
     
-    def get(self, request, username, *args, **kwargs) -> Response:
+    def get(self, request, username, *args, **kwargs):
         user = get_object_or_404(User, username=username)
         otp = generate_otp(user)
         return send_mail(otp_mail, user.email, otp)
     
-    def delete(self, request, username, *args, **kwargs) -> Response:
+    def delete(self, request, username, *args, **kwargs):
         user = get_object_or_404(User, username=username)
         otp = request.data['otp']
         otp_hash = hash_otp(user)
