@@ -43,7 +43,7 @@ class Register(APIView):
         
         if user.is_valid():
             user.save()
-            token = Token.objects.get_or_create(user=user)
+            token = Token.objects.get_or_create(user=user.data['id'])
             
             return Response(user.data, status=status.HTTP_201_CREATED)
         return Response(user.errors, status.HTTP_400_BAD_REQUEST)
