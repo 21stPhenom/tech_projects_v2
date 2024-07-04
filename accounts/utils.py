@@ -16,15 +16,9 @@ def generate_otp(user: User) -> str:
     assert type(user) == User, f'user must be an instance of {User}'
     otp = ''.join(str(i) for i in sample(range(0, 10), 6))
     otp_hash = hash_otp(user, otp)
-
-    if cache.has_key(otp_hash):
-        cached_otp = cache.get(otp_hash)
-        print('cached_otp')
-        return cached_otp
-    else:
-        cached_otp = cache.add(otp_hash, otp)
-        print('new-otp')
-        return otp
+    
+    cache.add(otp_hash, otp)
+    return otp
 
 # custom function for sending any email
 def send_mail(mail_func: callable, *args) -> Response:
