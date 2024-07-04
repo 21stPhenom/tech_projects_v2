@@ -89,7 +89,7 @@ class ForgotPassword(APIView):
         user = get_object_or_404(User, email=email)
         otp = request.data['otp']
         
-        otp_hash = hash_otp(user)
+        otp_hash = hash_otp(user, otp)
         if cache.has_key(otp_hash) and cache.get(otp_hash) == otp:
             return Response({
                 'response': otp_hash
@@ -130,7 +130,7 @@ class DeleteAccount(APIView):
     def delete(self, request, username, *args, **kwargs):
         user = get_object_or_404(User, username=username)
         otp = request.data['otp']
-        otp_hash = hash_otp(user)
+        otp_hash = hash_otp(user, otp)
         
         if cache.has_key(otp_hash) and cache.get(otp_hash) == otp:
             user.delete()

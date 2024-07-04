@@ -6,16 +6,16 @@ from rest_framework import status
 
 from accounts.models import CustomUser as User
 
-def hash_otp(user: User) -> str:
+def hash_otp(user: User, otp: str) -> str:
     type(user) == User, f'OTP must be string and user must be an instance of {User}'
-    otp_string = user.username + user.email
+    otp_string = user.username + user.email + otp
     return hashlib.sha256(bytes(otp_string, encoding='utf-8')).hexdigest()
 
 # generate and cache OTP
 def generate_otp(user: User) -> str:
     assert type(user) == User, f'user must be an instance of {User}'
     otp = ''.join(str(i) for i in sample(range(0, 10), 6))
-    otp_hash = hash_otp(otp, user)
+    otp_hash = hash_otp(user, otp)
 
     if cache.has_key(otp_hash):
         cached_otp = cache.get(otp_hash)
